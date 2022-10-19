@@ -8,35 +8,36 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 class QuotesPagerAdapter(
-    val quotes: List<Quote>,
-    var isNameRevealed: Boolean
-) : RecyclerView.Adapter<QuotesPagerAdapter.QuoteViewHolder>() {
+    val quotes: List<Quote>
+) : RecyclerView.Adapter<QuotesPagerAdapter.QuoteItemViewHolder>(
+) {
+    inner class QuoteItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val quoteTextView: TextView
+        val nameTextView: TextView
 
-    inner class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val quoteTextView: TextView = itemView.findViewById(R.id.quote_textview)
-        private val nameTextView: TextView = itemView.findViewById(R.id.name_textview)
+        init {
+            quoteTextView = itemView.findViewById<TextView>(R.id.quote_textview)
+            nameTextView = itemView.findViewById<TextView>(R.id.name_textview)
+        }
 
-        fun bind(quote: Quote, isNameRevealed: Boolean) {
-            quoteTextView.text = "\"${quote.quote}\""
-            if(isNameRevealed){
-                nameTextView.text = "-${quote.name}"
-                nameTextView.isVisible=true
-            }else{
-                nameTextView.isVisible =false
-            }
+        fun bindView(quote: Quote) {
+            quoteTextView.text = quote.quote
+            nameTextView.text = quote.name
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
-        return QuoteViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_quote, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteItemViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val itemView = inflater.inflate(R.layout.item_quote, parent, false)
+        return QuoteItemViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        val actualPosition = position % quotes.size
-        holder.bind(quotes[actualPosition],isNameRevealed)
+    override fun onBindViewHolder(holder: QuoteItemViewHolder, position: Int) {
+        val quote: Quote = quotes[position]
+        holder.bindView(quote)
     }
 
-    override fun getItemCount() = Int.MAX_VALUE
+    override fun getItemCount(): Int {
+        return quotes.size
+    }
 }

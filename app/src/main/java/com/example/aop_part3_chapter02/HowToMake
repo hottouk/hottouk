@@ -1,0 +1,10 @@
+1.UI 구성
+    (1) MainUi: 뷰페이져2
+    (2) itemUI만든다.뷰페이져에 들어갈 Item
+2.클래스 구현
+    (1) 모델 구현: Quote data클래스; name, quote
+    (2) 어댑터 구현; recyclerView 어댑터; 블로그 참조
+3.firebase Remote Config 구성한다.
+    -Remote Config 매개변수를 quote, name을 Json으로 작성
+    -is_name_revealed Boolean으로 설정
+4.
